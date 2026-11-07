@@ -1,0 +1,41 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-sm">
+        <defs>
+          <linearGradient id="favCyan" x1="10" y1="10" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#00D4FF"/>
+            <stop offset="100%" stop-color="#0284C7"/>
+          </linearGradient>
+          <linearGradient id="favInnerLens" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#F0FDF4"/>
+            <stop offset="100%" stop-color="#E0F2FE"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sherlock DeerStalker Cap Visor Outline -->
+        <path d="M22 41 C22 41, 32 30, 50 30 C68 30, 78 41, 78 41 C74 41, 62 36, 50 36 C38 36, 26 41, 22 41 Z" fill="#0284C7"/>
+
+        <!-- Outer Aperture Ring -->
+        <circle cx="50" cy="50" r="38" stroke="url(#favCyan)" stroke-width="6.5" stroke-linecap="round" stroke-dasharray="190 25"/>
+        
+        <!-- Crosshair Marks -->
+        <line x1="50" y1="6" x2="50" y2="12" stroke="#00C4EE" stroke-width="3" stroke-linecap="round"/>
+        <line x1="6" y1="50" x2="12" y2="50" stroke="#00C4EE" stroke-width="3" stroke-linecap="round"/>
+        <line x1="94" y1="50" x2="88" y2="50" stroke="#00C4EE" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Inner Lens Body -->
+        <circle cx="50" cy="50" r="30" fill="url(#favInnerLens)" stroke="#0F172A" stroke-width="5"/>
+
+        <!-- Iris AI Shutter Blades -->
+        <path d="M50 25 L63 42 L48 44 Z" fill="#0F172A"/>
+        <path d="M72 40 L65 57 L52 50 Z" fill="#0284C7"/>
+        <path d="M68 65 L49 67 L52 52 Z" fill="#00D4FF"/>
+        <path d="M42 70 L35 53 L48 50 Z" fill="#0F172A"/>
+        <path d="M28 50 L38 34 L49 42 Z" fill="#0284C7"/>
+
+        <!-- AI Core Dot -->
+        <circle cx="50" cy="50" r="4.5" fill="#00D4FF"/>
+        <circle cx="50" cy="50" r="2" fill="#FFFFFF"/>
+
+        <!-- Handle -->
+        <path d="M75 75 L102 102" stroke="#0F172A" stroke-width="10" stroke-linecap="round"/>
+        <path d="M78 78 L99 99" stroke="#00D4FF" stroke-width="4" stroke-linecap="round"/>
+      </svg>

@@ -9,6 +9,7 @@ import {
   type AuditStep, type BatchAlert, type TicketCase, type VerdictType,
 } from "@/data/mocks";
 import SimulatorModal, { type AnalyzeResponse } from "@/components/SimulatorModal";
+import GoSherlockLogo from "@/components/GoSherlockLogo";
 
 type Filter = "todos" | VerdictType;
 type Source = "ai" | "fallback" | "mock";
@@ -103,15 +104,9 @@ export default function Dashboard() {
     <div className="mx-auto max-w-[1600px] px-4 py-5">
       {/* Header + KPIs */}
       <header className="mb-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-          <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-indigo-600 p-2"><Bot size={22} /></div>
-            <div>
-              <h1 className="text-xl font-bold text-white">GoVerdict</h1>
-              <p className="text-xs text-slate-400">Central de governança e execução autônoma · Triagem de avarias</p>
-            </div>
-          </div>
-          <button onClick={() => setShowSim(true)} className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-sm font-semibold">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <GoSherlockLogo size="md" showTagline={true} />
+          <button onClick={() => setShowSim(true)} className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 px-4 py-2.5 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-500/20 transition-all hover:scale-[1.02]">
             <Sparkles size={16} /> Simular novo ticket ao vivo
           </button>
         </div>

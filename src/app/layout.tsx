@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "GoVerdict — Central de Governança e Decisão Autônoma de Backoffice",
-  description: "Governança e triagem autônoma de avarias com IA multimodal para e-commerce",
+  title: "GoSherlock — Perícia Visual & Resolução Autônoma de Backoffice",
+  description: "Investigação multimodal e triagem Zero-Touch de avarias de produtos para o ecossistema GoGroup",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
