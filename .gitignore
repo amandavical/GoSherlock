@@ -40,6 +40,7 @@ temp-skills/
 .vscode/
 .idea/
 
-# Ignore .md files except plano_implementacao_mvp.md
+# Ignore .md files except plano_implementacao_mvp.md and AI_LOG.md
 *.md
 !plano_implementacao_mvp.md
+!AI_LOG.md
