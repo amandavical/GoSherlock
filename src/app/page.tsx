@@ -58,7 +58,7 @@ const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:rin
 function Badge({ verdict, compact }: { verdict: VerdictType; compact?: boolean }) {
   const { label, short, cls, Icon } = VERDICT_META[verdict];
   return (
-    <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset ${cls}`}>
+    <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${cls}`}>
       <Icon size={12} aria-hidden /> {compact ? short : label}
     </span>
   );
@@ -74,7 +74,7 @@ function ScoreBar({ score }: { score: number }) {
           style={{ width: `${score}%` }}
         />
       </div>
-      <span className="w-9 text-right text-[11px] tabular-nums text-slate-300">{score}%</span>
+      <span className="w-10 text-right text-xs tabular-nums text-slate-300">{score}%</span>
     </div>
   );
 }
@@ -82,9 +82,9 @@ function ScoreBar({ score }: { score: number }) {
 function Kpi({ Icon, label, value, hint }: { Icon: Icon; label: string; value: string; hint?: string }) {
   return (
     <div className="flex flex-col gap-1.5 px-5 py-4 sm:px-6">
-      <div className="flex items-center gap-2 text-xs text-slate-400"><Icon size={14} className="text-blue-400" aria-hidden /> {label}</div>
+      <div className="flex items-center gap-2 text-[13px] text-slate-400"><Icon size={14} className="text-blue-400" aria-hidden /> {label}</div>
       <div className="text-3xl font-semibold tracking-tight text-white tabular-nums">{value}</div>
-      <div className="min-h-4 text-[11px] text-slate-500">{hint}</div>
+      <div className="min-h-4 text-xs text-slate-500">{hint}</div>
     </div>
   );
 }
@@ -92,7 +92,7 @@ function Kpi({ Icon, label, value, hint }: { Icon: Icon; label: string; value: s
 function PanelTitle({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between gap-3">
-      <h2 className="text-sm font-semibold text-slate-100">{children}</h2>
+      <h2 className="text-[15px] font-semibold text-slate-100">{children}</h2>
       {aside}
     </div>
   );
@@ -153,7 +153,7 @@ export default function Dashboard() {
           <GoSherlockLogo size="md" showTagline={true} />
           <button
             onClick={() => setShowSim(true)}
-            className={`group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-400 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-blue-500/25 transition duration-200 hover:shadow-emerald-400/30 hover:brightness-110 active:scale-[0.98] ${FOCUS}`}
+            className={`group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-400 px-4 py-2.5 text-[15px] font-semibold text-slate-950 shadow-lg shadow-blue-500/25 transition duration-200 hover:shadow-emerald-400/30 hover:brightness-110 active:scale-[0.98] ${FOCUS}`}
           >
             <Sparkles size={16} aria-hidden className="transition-transform duration-300 group-hover:rotate-12" /> Simular novo ticket ao vivo
           </button>
@@ -175,7 +175,7 @@ export default function Dashboard() {
           <span className={blocked ? "text-emerald-300" : "text-amber-300"}>
             {blocked ? <Lock size={16} aria-hidden /> : <AlertTriangle size={16} aria-hidden />}
           </span>
-          <p className="min-w-[260px] flex-1 text-sm text-slate-300">
+          <p className="min-w-[260px] flex-1 text-[15px] text-slate-300">
             <span className="font-semibold text-white">
               {blocked ? `Lote ${batch.batchId} bloqueado no ERP` : `Lote crítico ${batch.batchId}`}
             </span>
@@ -184,7 +184,7 @@ export default function Dashboard() {
           {!blocked && (
             <button
               onClick={() => setBatch((b) => ({ ...b, status: "bloqueado_no_erp" }))}
-              className={`inline-flex items-center gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-sm font-semibold text-amber-200 transition duration-200 hover:bg-amber-400/20 active:scale-[0.98] ${FOCUS}`}
+              className={`inline-flex items-center gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-1.5 text-[15px] font-semibold text-amber-200 transition duration-200 hover:bg-amber-400/20 active:scale-[0.98] ${FOCUS}`}
             >
               <Ban size={16} aria-hidden /> Bloquear lote no ERP
             </button>
@@ -195,7 +195,7 @@ export default function Dashboard() {
         <div className="grid gap-5 lg:grid-cols-[320px_minmax(0,1fr)_380px]">
           {/* Col 1 — fila */}
           <aside className={`${GLASS} flex flex-col gap-4 p-4 lg:max-h-[calc(100vh-2.5rem)] lg:sticky lg:top-5`}>
-            <PanelTitle aside={<span className="text-[11px] tabular-nums text-slate-500">{visible.length} de {tickets.length}</span>}>Fila de execuções</PanelTitle>
+            <PanelTitle aside={<span className="text-xs tabular-nums text-slate-500">{visible.length} de {tickets.length}</span>}>Fila de execuções</PanelTitle>
             <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Filtrar por veredito">
               {filters.map(([k, l]) => (
                 <button
@@ -203,7 +203,7 @@ export default function Dashboard() {
                   role="tab"
                   aria-selected={filter === k}
                   onClick={() => setFilter(k)}
-                  className={`rounded-full px-2.5 py-1 text-xs font-medium transition duration-200 ${FOCUS} ${filter === k ? "bg-blue-500/15 text-blue-200 ring-1 ring-inset ring-blue-400/40" : "text-slate-400 ring-1 ring-inset ring-slate-800 hover:text-slate-200 hover:ring-slate-600"}`}
+                  className={`rounded-full px-2.5 py-1 text-[13px] font-medium transition duration-200 ${FOCUS} ${filter === k ? "bg-blue-500/15 text-blue-200 ring-1 ring-inset ring-blue-400/40" : "text-slate-400 ring-1 ring-inset ring-slate-800 hover:text-slate-200 hover:ring-slate-600"}`}
                 >
                   {l} <span className="tabular-nums opacity-70">{counts[k]}</span>
                 </button>
@@ -222,19 +222,19 @@ export default function Dashboard() {
                         : "border-slate-800/80 bg-slate-950/40 hover:-translate-y-0.5 hover:border-slate-600 hover:bg-slate-900/70"}`}
                     >
                       <div className="mb-2 flex items-center justify-between gap-2">
-                        <span className="font-mono text-[11px] text-slate-500">
+                        <span className="font-mono text-xs text-slate-500">
                           {!MOCK_IDS.has(t.id) ? <span className="text-emerald-300">AO VIVO</span> : t.conversationId}
                         </span>
                         <Badge verdict={t.verdict} compact />
                       </div>
-                      <div className="truncate text-sm font-medium text-white">{t.pedido.descricaoProduto}</div>
-                      <div className="mb-3 mt-0.5 truncate text-xs text-slate-400">{t.cliente.nome} · {DEFECT_LABEL[t.visualInspection.defectType]}</div>
+                      <div className="truncate text-[15px] font-medium text-white">{t.pedido.descricaoProduto}</div>
+                      <div className="mb-3 mt-0.5 truncate text-[13px] text-slate-400">{t.cliente.nome} · {DEFECT_LABEL[t.visualInspection.defectType]}</div>
                       <ScoreBar score={t.confidenceScore} />
                     </button>
                   </li>
                 );
               })}
-              {visible.length === 0 && <li className="px-1 py-6 text-center text-xs text-slate-500">Nenhum ticket neste filtro.</li>}
+              {visible.length === 0 && <li className="px-1 py-6 text-center text-[13px] text-slate-500">Nenhum ticket neste filtro.</li>}
             </ul>
           </aside>
 
@@ -243,11 +243,11 @@ export default function Dashboard() {
             <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
                 <h2 className="text-lg font-semibold tracking-tight text-white">{selected.pedido.descricaoProduto}</h2>
-                <p className="mt-1 text-xs text-slate-400">
+                <p className="mt-1 text-[13px] text-slate-400">
                   {selected.cliente.nome} · {brl(selected.pedido.valor)} · Pedido {selected.pedido.orderId} · Lote {selected.pedido.lote}
                 </p>
               </div>
-              <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] ring-1 ring-inset ${src === "ai" ? "bg-blue-500/10 font-medium text-blue-200 ring-blue-400/30" : "text-slate-400 ring-slate-700"}`}>
+              <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs ring-1 ring-inset ${src === "ai" ? "bg-blue-500/10 font-medium text-blue-200 ring-blue-400/30" : "text-slate-400 ring-slate-700"}`}>
                 {src === "ai" && <Cpu size={12} aria-hidden />}
                 {src === "ai" ? `Perícia por IA real · ${meta[selected.id]?.model ?? "AI Proxy"} · ${((vision?.latencyMs ?? 0) / 1000).toFixed(1)}s` : src === "fallback" ? "Perícia: motor local" : "Dado pré-validado"}
               </span>
@@ -266,46 +266,46 @@ export default function Dashboard() {
                       onError={() => setImgFailed((m) => ({ ...m, [selected.id]: true }))}
                     />
                   ) : (
-                    <div className="flex h-full flex-col items-center justify-center gap-1 text-xs text-slate-500"><FileSearch aria-hidden /> Sem imagem disponível</div>
+                    <div className="flex h-full flex-col items-center justify-center gap-1 text-[13px] text-slate-500"><FileSearch aria-hidden /> Sem imagem disponível</div>
                   )}
-                  <span className="absolute left-2.5 top-2.5 rounded-md bg-slate-950/70 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-md">{DEFECT_LABEL[selected.visualInspection.defectType]}</span>
+                  <span className="absolute left-2.5 top-2.5 rounded-md bg-slate-950/70 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-md">{DEFECT_LABEL[selected.visualInspection.defectType]}</span>
                 </div>
               </figure>
 
               {/* Resumo executivo */}
               <div className="flex flex-col gap-4">
-                <h3 className="text-sm font-semibold text-slate-100">Resumo executivo</h3>
-                <dl className="space-y-4 text-sm">
+                <h3 className="text-[15px] font-semibold text-slate-100">Resumo executivo</h3>
+                <dl className="space-y-4 text-[15px]">
                   <div>
-                    <dt className="text-xs text-slate-400">Causa raiz</dt>
+                    <dt className="text-[13px] text-slate-400">Causa raiz</dt>
                     <dd className="mt-0.5 font-medium text-white">{rootCause}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs text-slate-400">Veredito</dt>
+                    <dt className="text-[13px] text-slate-400">Veredito</dt>
                     <dd className="mt-1"><Badge verdict={selected.verdict} /></dd>
                     <span className="sr-only">{verdictText}</span>
                   </div>
                   <div className="rounded-xl bg-gradient-to-br from-blue-500/[0.10] to-emerald-400/[0.06] px-4 py-3 ring-1 ring-inset ring-blue-400/25">
-                    <dt className="text-xs text-slate-400">Confiança da IA</dt>
+                    <dt className="text-[13px] text-slate-400">Confiança da IA</dt>
                     <dd className="mt-0.5 text-4xl font-semibold tracking-tight text-white tabular-nums">{selected.confidenceScore}%</dd>
                     <div className="mt-2"><ScoreBar score={selected.confidenceScore} /></div>
                   </div>
                 </dl>
-                <p className="text-xs italic leading-relaxed text-slate-400">“{selected.relatoCliente}”</p>
+                <p className="text-[13px] italic leading-relaxed text-slate-400">“{selected.relatoCliente}”</p>
               </div>
             </div>
 
             <div className="mt-5">
-              <h3 className="mb-2 text-sm font-semibold text-slate-100">Laudo técnico</h3>
-              <p className="max-w-[70ch] text-sm leading-relaxed text-slate-300">{selected.visualInspection.technicalReport}</p>
+              <h3 className="mb-2 text-[15px] font-semibold text-slate-100">Laudo técnico</h3>
+              <p className="max-w-[70ch] text-[15px] leading-relaxed text-slate-300">{selected.visualInspection.technicalReport}</p>
             </div>
 
-            {note && <p className="mt-5 rounded-lg bg-amber-400/[0.07] px-3 py-2 text-xs text-amber-300 ring-1 ring-inset ring-amber-400/25">{note}</p>}
+            {note && <p className="mt-5 rounded-lg bg-amber-400/[0.07] px-3 py-2 text-[13px] text-amber-300 ring-1 ring-inset ring-amber-400/25">{note}</p>}
           </main>
 
           {/* Col 3 — auditoria + ação */}
           <aside className={`${GLASS} flex flex-col gap-5 p-5 lg:max-h-[calc(100vh-2.5rem)] lg:sticky lg:top-5 lg:overflow-y-auto`}>
-            <PanelTitle aside={<span className="text-[11px] tabular-nums text-slate-500">{(selected.tempoProcessamentoMs / 1000).toFixed(1)}s total</span>}>Trilha de auditoria</PanelTitle>
+            <PanelTitle aside={<span className="text-xs tabular-nums text-slate-500">{(selected.tempoProcessamentoMs / 1000).toFixed(1)}s total</span>}>Trilha de auditoria</PanelTitle>
 
             <ol className="relative space-y-5">
               <span aria-hidden className="absolute bottom-3 left-[15px] top-3 w-px bg-gradient-to-b from-blue-400/40 via-slate-700/60 to-emerald-400/40" />
@@ -320,9 +320,9 @@ export default function Dashboard() {
                     <div className="min-w-0 flex-1 pt-0.5">
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="text-[13px] font-medium text-white">{s.system}</span>
-                        <span className="shrink-0 text-[10px] tabular-nums text-slate-500">{s.latencyMs}ms</span>
+                        <span className="shrink-0 text-xs tabular-nums text-slate-500">{s.latencyMs}ms</span>
                       </div>
-                      <div className={`mt-0.5 text-xs leading-relaxed ${m.text}`}>{s.finding}</div>
+                      <div className={`mt-0.5 text-[13px] leading-relaxed ${m.text}`}>{s.finding}</div>
                     </div>
                   </li>
                 );
@@ -331,22 +331,22 @@ export default function Dashboard() {
 
             {/* Decisão autônoma */}
             <div className="rounded-xl bg-gradient-to-br from-blue-500/[0.10] to-emerald-400/[0.06] p-4 ring-1 ring-inset ring-blue-400/25">
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
+              <div className="mb-3 flex items-center gap-2 text-[15px] font-semibold text-white">
                 {selected.verdict === "AUTO_APPROVED" ? <CheckCircle2 size={16} className="text-emerald-300" aria-hidden /> : selected.verdict === "AUTO_REJECTED" ? <XCircle size={16} className="text-rose-300" aria-hidden /> : <ShieldAlert size={16} className="text-amber-300" aria-hidden />}
                 {selected.verdict === "HUMAN_ESCALATED" ? "Ação pendente (aguardando humano)" : "Ação executada pelo agente"}
               </div>
-              <dl className="space-y-1.5 text-xs text-slate-400">
+              <dl className="space-y-1.5 text-[13px] text-slate-400">
                 <div className="flex justify-between gap-3"><dt>ID da ação</dt><dd className="font-mono text-slate-200">{selected.executedAction.acaoId}</dd></div>
                 <div className="flex justify-between gap-3"><dt>Tipo</dt><dd className="text-right text-slate-200">{selected.executedAction.tipo.replace(/_/g, " ")}</dd></div>
                 {selected.executedAction.pedidoReposicaoId && <div className="flex justify-between gap-3"><dt>Reposição</dt><dd className="font-mono text-slate-200">{selected.executedAction.pedidoReposicaoId}</dd></div>}
                 {selected.executedAction.codigoPostagemReversa && <div className="flex justify-between gap-3"><dt>Logística reversa</dt><dd className="font-mono text-slate-200">{selected.executedAction.codigoPostagemReversa}</dd></div>}
               </dl>
-              <div className="mt-4 flex items-center gap-1 text-[11px] font-medium text-slate-400">Mensagem enviada ao cliente <ArrowUpRight size={12} aria-hidden /></div>
-              <p className="mt-1 text-xs leading-relaxed text-slate-300">{selected.executedAction.notificacaoCliente}</p>
+              <div className="mt-4 flex items-center gap-1 text-xs font-medium text-slate-400">Mensagem enviada ao cliente <ArrowUpRight size={12} aria-hidden /></div>
+              <p className="mt-1 text-[13px] leading-relaxed text-slate-300">{selected.executedAction.notificacaoCliente}</p>
             </div>
 
             {selected.batchAlertTriggered && (
-              <div className="flex items-start gap-2 rounded-xl bg-amber-400/[0.07] p-3 text-xs text-amber-200 ring-1 ring-inset ring-amber-400/25">
+              <div className="flex items-start gap-2 rounded-xl bg-amber-400/[0.07] p-3 text-[13px] text-amber-200 ring-1 ring-inset ring-amber-400/25">
                 <AlertTriangle size={14} className="mt-px shrink-0" aria-hidden /> Caso correlacionado ao lote crítico {batch.batchId}.
               </div>
             )}
