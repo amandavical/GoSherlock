@@ -1,0 +1,6 @@
+[
+  { "id": "desc-01", "file": "descostura-01.jpg", "expected": "descostura_alca" },
+  { "id": "rasg-01", "file": "rasgo-01.jpg", "expected": "rasgo_mau_uso" },
+  { "id": "transp-01", "file": "transporte-01.jpg", "expected": "avaria_transporte_embalagem" },
+  { "id": "borrada-01", "file": "borrada-01.jpg", "expected": "foto_inconclusiva" }
+]

@@ -1,0 +1,4 @@
+[
+  { "id": "bolsa1-rasgo", "file": "bolsa1.png", "expected": "rasgo_mau_uso" },
+  { "id": "bolsa2-rasgo", "file": "bolsa2.png", "expected": "rasgo_mau_uso" }
+]

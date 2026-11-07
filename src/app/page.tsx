@@ -10,6 +10,7 @@ import {
 } from "@/data/mocks";
 import SimulatorModal, { type AnalyzeResponse } from "@/components/SimulatorModal";
 import GoSherlockLogo from "@/components/GoSherlockLogo";
+import evalResults from "@/data/eval-results.json";
 
 type Filter = "todos" | VerdictType;
 type Source = "ai" | "fallback" | "mock";
@@ -67,7 +68,7 @@ function Badge({ verdict, compact }: { verdict: VerdictType; compact?: boolean }
 function ScoreBar({ score }: { score: number }) {
   const high = score >= 80;
   return (
-    <div className="flex items-center gap-2" role="meter" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100} aria-label="Score de acurácia">
+    <div className="flex items-center gap-2" role="meter" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100} aria-label="Score de confiança">
       <div className="h-1 flex-1 overflow-hidden rounded-full bg-slate-800">
         <div
           className={`h-full rounded-full transition-[width] duration-700 ease-out ${high ? "bg-gradient-to-r from-blue-500 to-emerald-400" : "bg-gradient-to-r from-amber-500 to-amber-300"}`}
@@ -79,24 +80,22 @@ function ScoreBar({ score }: { score: number }) {
   );
 }
 
-function Kpi({ Icon, label, value, hint, from, highlight }: { Icon: Icon; label: string; value: string; hint?: React.ReactNode; from?: string; highlight?: boolean }) {
+function Kpi({ Icon, label, value, hint, from, highlight, large }: { Icon: Icon; label: string; value: string; hint?: React.ReactNode; from?: string; highlight?: boolean; large?: boolean }) {
   return (
     <div className={`flex flex-col gap-1.5 px-5 py-4 sm:px-6 ${highlight ? "col-span-2 bg-gradient-to-br from-blue-500/[0.12] to-emerald-400/[0.06] lg:col-span-1" : ""}`}>
       <div className="flex items-center gap-2 text-[13px] text-slate-400"><Icon size={14} className="text-blue-400" aria-hidden /> {label}</div>
       <div className="flex flex-wrap items-baseline gap-x-3">
         {from && <span className="text-lg tabular-nums text-slate-500 line-through decoration-rose-400/70">{from}</span>}
-        <span className={`font-semibold tracking-tight text-white tabular-nums ${highlight ? "text-5xl" : "text-3xl"}`}>{value}</span>
+        <span className={`font-semibold tracking-tight text-white tabular-nums ${highlight || large ? "text-5xl" : "text-3xl"}`}>{value}</span>
       </div>
       <div className={`min-h-4 text-xs ${highlight ? "font-medium text-emerald-300" : "text-slate-500"}`}>{hint}</div>
     </div>
   );
 }
 
-/* Linha de base manual: limite inferior do que o time relata (15 min por ticket). Os múltiplos abaixo derivam dela. */
+/* Linha de base manual: estimativa do desafio (15 min por ticket). O múltiplo abaixo deriva dela e do tempo medido nas demos. */
 const MANUAL_SECONDS = 15 * 60;
 const speedup = Math.round(MANUAL_SECONDS / MOCK_KPIS.tempoMedioSegundos);
-const autoTickets = MOCK_KPIS.aprovadosAutomaticos + MOCK_KPIS.recusadosAutomaticos;
-const hoursSaved = Math.round((autoTickets * MANUAL_SECONDS) / 3600);
 const num = (n: number, d = 1) => n.toLocaleString("pt-BR", { maximumFractionDigits: d });
 
 function PanelTitle({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
@@ -170,11 +169,16 @@ export default function Dashboard() {
         </header>
 
         {/* KPIs: uma faixa única, divisores finos em vez de cinco cards */}
-        <section aria-label="Indicadores executivos" className={`${GLASS} mb-5 grid grid-cols-2 divide-slate-800/80 lg:grid-cols-[1.35fr_1fr_1.15fr_1fr] lg:divide-x`}>
+        <section aria-label="Indicadores executivos" className={`${GLASS} mb-5 grid grid-cols-2 divide-slate-800/80 lg:grid-cols-[1.35fr_1fr_1.15fr] lg:divide-x`}>
           <Kpi highlight Icon={Clock} label="Tempo por ticket" from="15 min" value={`${num(MOCK_KPIS.tempoMedioSegundos)}s`} hint={`~${speedup}x mais rápido que o atendimento manual`} />
-          <Kpi Icon={Activity} label="Acurácia média" value={`${num(MOCK_KPIS.acuraciaScoreMedio)}%`} hint="score de confiança da IA" />
-          <Kpi Icon={Zap} label="Autonomia Zero-Touch" value={`${num(MOCK_KPIS.taxaAutonomiaZeroTouch)}%`} hint={`~${num(hoursSaved, 0)} h de analista poupadas em ${num(MOCK_KPIS.ticketsProcessadosTotal, 0)} tickets`} />
-          <Kpi Icon={ShieldCheck} label="Fraudes evitadas" value={brl(MOCK_KPIS.fraudesEvitadasValor)} hint={`${MOCK_KPIS.escalonadosExcecao} exceções p/ humano`} />
+          <Kpi
+            large
+            Icon={Activity}
+            label="Acurácia da perícia (medida)"
+            value={evalResults.n > 0 && evalResults.accuracy !== null ? `${num(evalResults.accuracy)}%` : "a medir"}
+            hint={evalResults.n > 0 ? undefined : "rode npm run eval com fotos rotuladas"}
+          />
+          <Kpi Icon={ShieldAlert} label="Defeito de produto (Gocase)" value="21,26%" hint="das reclamações · 6.630 casos em 3 anos · Reclame Aqui" />
         </section>
 
         {/* Alerta de lote */}

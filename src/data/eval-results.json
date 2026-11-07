@@ -1,0 +1,28 @@
+{
+  "n": 2,
+  "correct": 2,
+  "accuracy": 100,
+  "excluded": 0,
+  "perClass": {
+    "descostura_alca": {
+      "n": 0,
+      "correct": 0
+    },
+    "rasgo_mau_uso": {
+      "n": 2,
+      "correct": 2
+    },
+    "avaria_transporte_embalagem": {
+      "n": 0,
+      "correct": 0
+    },
+    "foto_inconclusiva": {
+      "n": 0,
+      "correct": 0
+    }
+  },
+  "avgSeconds": 9.7,
+  "model": "gpt-5.6-luna",
+  "measuredAt": "2026-11-07",
+  "errors": []
+}
