@@ -32,6 +32,10 @@ yarn-error.log*
 .DS_Store
 *.pem
 
+# Local tooling & agents
+.claude/
+temp-skills/
+
 # IDE / Editor
 .vscode/
 .idea/
