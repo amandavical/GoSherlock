@@ -169,7 +169,7 @@ export default function Dashboard() {
         </header>
 
         {/* KPIs: uma faixa única, divisores finos em vez de cinco cards */}
-        <section aria-label="Indicadores executivos" className={`${GLASS} mb-5 grid grid-cols-2 divide-slate-800/80 lg:grid-cols-[1.35fr_1fr_1.15fr] lg:divide-x`}>
+        <section aria-label="Indicadores executivos" className={`${GLASS} mb-5 grid grid-cols-2 divide-slate-800/80 lg:grid-cols-[1.35fr_1fr_1.15fr_1fr] lg:divide-x`}>
           <Kpi highlight Icon={Clock} label="Tempo por ticket" from="15 min" value={`${num(MOCK_KPIS.tempoMedioSegundos)}s`} hint={`~${speedup}x mais rápido que o atendimento manual`} />
           <Kpi
             large
@@ -178,7 +178,8 @@ export default function Dashboard() {
             value={evalResults.n > 0 && evalResults.accuracy !== null ? `${num(evalResults.accuracy)}%` : "a medir"}
             hint={evalResults.n > 0 ? undefined : "rode npm run eval com fotos rotuladas"}
           />
-          <Kpi Icon={ShieldAlert} label="Defeito de produto (Gocase)" value="21,26%" hint="das reclamações · 6.630 casos em 3 anos · Reclame Aqui" />
+          <Kpi Icon={Zap} label="Autonomia Zero-Touch" value={`${num(MOCK_KPIS.taxaAutonomiaZeroTouch)}%`} hint={`${num(MOCK_KPIS.ticketsProcessadosTotal, 0)} tickets processados`} />
+          <Kpi Icon={ShieldCheck} label="Fraudes evitadas" value={brl(MOCK_KPIS.fraudesEvitadasValor)} hint={`${MOCK_KPIS.escalonadosExcecao} exceções p/ humano`} />
         </section>
 
         {/* Alerta de lote */}
