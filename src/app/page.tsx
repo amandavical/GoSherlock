@@ -75,6 +75,7 @@ export default function Dashboard() {
   const [batch, setBatch] = useState<BatchAlert>(MOCK_BATCH_ALERT);
   const [showSim, setShowSim] = useState(false);
   const [note, setNote] = useState("");
+  const [meta, setMeta] = useState<Record<string, { model?: string | null; reason?: string }>>({});
   const [imgFailed, setImgFailed] = useState<Record<string, boolean>>({});
 
   const selected = tickets.find((t) => t.id === selectedId) ?? tickets[0];
@@ -90,9 +91,10 @@ export default function Dashboard() {
     const source: Source = r.source === "gogroup_ai_proxy" ? "ai" : "fallback";
     setTickets((prev) => [r.ticket, ...prev.filter((t) => t.id !== r.ticket.id)]);
     setSources((s) => ({ ...s, [r.ticket.id]: source }));
+    setMeta((m) => ({ ...m, [r.ticket.id]: { model: r.model, reason: r.fallbackReason } }));
     setSelectedId(r.ticket.id);
     setFilter("todos");
-    setNote(source === "ai" ? "Perícia feita pela IA via AI Proxy." : "AI Proxy indisponível: motor determinístico local acionado.");
+    setNote(source === "ai" ? "" : `IA não utilizada — motor local acionado (${r.fallbackReason ?? "AI Proxy indisponível"}).`);
     if (r.ticket.batchAlertTriggered) setBatch((b) => ({ ...b, totalCasosDetectados: b.totalCasosDetectados + 1 }));
   }
 
@@ -181,8 +183,8 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] rounded-full border border-slate-700 px-2 py-0.5 text-slate-400">
-                {src === "ai" ? "Perícia: IA" : src === "fallback" ? "Perícia: motor local" : "Dado pré-validado"}
+              <span className={`text-[11px] rounded-full border px-2 py-0.5 ${src === "ai" ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-300 font-semibold" : "border-slate-700 text-slate-400"}`}>
+                {src === "ai" ? `Perícia por IA real · ${meta[selected.id]?.model ?? "AI Proxy"} · ${((selected.auditTrail.find((a) => a.system.startsWith("Vision"))?.latencyMs ?? 0) / 1000).toFixed(1)}s` : src === "fallback" ? "Perícia: motor local" : "Dado pré-validado"}
               </span>
               <Badge verdict={selected.verdict} />
             </div>
@@ -248,7 +250,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {note && <p className="mt-4 text-xs text-slate-400">{note}</p>}
+          {note && <p className="mt-4 text-xs text-amber-400">{note}</p>}
         </main>
 
         {/* Col 3 — auditoria + ação */}

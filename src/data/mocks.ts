@@ -304,7 +304,7 @@ export const MOCK_TICKETS: TicketCase[] = [
       sinistroAberto: false
     },
     relatoCliente: "O tecido e a costura da necessaire abriram sozinhos. Quero meu dinheiro de volta ou uma nova porque isso é defeito de qualidade do produto.",
-    imagemUrl: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=700&auto=format&fit=crop&q=80",
+    imagemUrl: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=700&auto=format&fit=crop&q=80",
     hashPerceptual: "1a84f37bc902e64b",
     visualInspection: {
       defectType: "rasgo_mau_uso",

@@ -7,6 +7,8 @@ import type { TicketCase } from "@/data/mocks";
 export interface AnalyzeResponse {
   success: boolean;
   source: "gogroup_ai_proxy" | "local_deterministic_engine";
+  model?: string | null;
+  fallbackReason?: string;
   ticket: TicketCase;
   error?: string;
 }
@@ -41,15 +43,28 @@ export default function SimulatorModal({ onClose, onResult }: Props) {
     setRelato(PRESETS[i].relato);
     setDias(PRESETS[i].dias);
     setRessalva(i === 2 ? "Embalagem amassada com rasgadura na triagem" : "");
-    if (i === 3) setImagem("");
   }
 
+  // Reduz a foto no navegador (lado maior 1280px, JPEG): fotos de celular passam de 5 MB e deixariam a IA lenta.
   function onFile(file?: File) {
     if (!file) return;
-    if (file.size > 5_000_000) return setError("Imagem acima de 5 MB.");
-    const reader = new FileReader();
-    reader.onload = () => setImagem(String(reader.result));
-    reader.readAsDataURL(file);
+    setError("");
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, 1280 / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext("2d")?.drawImage(img, 0, 0, canvas.width, canvas.height);
+      setImagem(canvas.toDataURL("image/jpeg", 0.82));
+      URL.revokeObjectURL(url);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      setError("Não foi possível ler essa imagem.");
+    };
+    img.src = url;
   }
 
   async function submit() {
@@ -127,7 +142,7 @@ export default function SimulatorModal({ onClose, onResult }: Props) {
             <input className={inputCls} value={ressalva} onChange={(e) => setRessalva(e.target.value)} placeholder="Ex.: Embalagem amassada na triagem" />
           </div>
           <div className="col-span-2">
-            <label className={labelCls}>Foto da avaria (URL ou upload; vazio = foto inconclusiva)</label>
+            <label className={labelCls}>Foto da avaria (URL ou upload)</label>
             <div className="flex gap-2">
               <input className={inputCls} value={imagem.startsWith("data:") ? "(imagem enviada)" : imagem} onChange={(e) => setImagem(e.target.value)} placeholder="https://..." />
               <label className="shrink-0 inline-flex items-center gap-1 px-3 rounded-lg bg-slate-800 border border-slate-700 text-xs cursor-pointer hover:bg-slate-700">
@@ -135,6 +150,15 @@ export default function SimulatorModal({ onClose, onResult }: Props) {
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
               </label>
             </div>
+            {imagem ? (
+              <div className="mt-2 flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={imagem} alt="Pré-visualização" className="h-16 w-16 rounded object-cover border border-slate-700" />
+                <span className="text-xs text-emerald-400">A IA vai periciar esta foto.</span>
+              </div>
+            ) : (
+              <p className="mt-2 text-xs text-amber-400">Sem foto, a IA não é chamada: o motor local decide só pelo relato.</p>
+            )}
           </div>
         </div>
 
@@ -145,7 +169,7 @@ export default function SimulatorModal({ onClose, onResult }: Props) {
           disabled={loading || relato.trim().length < 5}
           className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 py-2.5 text-sm font-semibold"
         >
-          {loading ? <><Loader2 size={16} className="animate-spin" /> Agente analisando…</> : <><Play size={16} /> Processar ticket</>}
+          {loading ? <><Loader2 size={16} className="animate-spin" /> {imagem ? "IA periciando a foto… (até 10s)" : "Agente analisando…"}</> : <><Play size={16} /> Processar ticket</>}
         </button>
       </div>
     </div>
