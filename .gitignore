@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Production
+.vercel
+
+# Environment variables
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS metadata
+.DS_Store
+*.pem
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Ignore .md files except plano_implementacao_mvp.md
+*.md
+!plano_implementacao_mvp.md
