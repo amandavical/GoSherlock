@@ -81,7 +81,7 @@ export default function GoSherlockLogo({ size = "md", showTagline = true }: Logo
           <div className="flex items-center gap-1.5 mt-0.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#00E5FF] animate-pulse"></span>
             <p className="text-[10px] font-semibold tracking-wider text-cyan-200/80 uppercase">
-              Autonomous Backoffice & Visual AI QA
+              Perícia Visual & Resolução Autônoma de Avarias
             </p>
           </div>
         )}
@@ -89,3 +89,4 @@ export default function GoSherlockLogo({ size = "md", showTagline = true }: Logo
     </div>
   );
 }
+
