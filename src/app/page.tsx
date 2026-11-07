@@ -79,15 +79,25 @@ function ScoreBar({ score }: { score: number }) {
   );
 }
 
-function Kpi({ Icon, label, value, hint }: { Icon: Icon; label: string; value: string; hint?: string }) {
+function Kpi({ Icon, label, value, hint, from, highlight }: { Icon: Icon; label: string; value: string; hint?: React.ReactNode; from?: string; highlight?: boolean }) {
   return (
-    <div className="flex flex-col gap-1.5 px-5 py-4 sm:px-6">
+    <div className={`flex flex-col gap-1.5 px-5 py-4 sm:px-6 ${highlight ? "col-span-2 bg-gradient-to-br from-blue-500/[0.12] to-emerald-400/[0.06] lg:col-span-1" : ""}`}>
       <div className="flex items-center gap-2 text-[13px] text-slate-400"><Icon size={14} className="text-blue-400" aria-hidden /> {label}</div>
-      <div className="text-3xl font-semibold tracking-tight text-white tabular-nums">{value}</div>
-      <div className="min-h-4 text-xs text-slate-500">{hint}</div>
+      <div className="flex flex-wrap items-baseline gap-x-3">
+        {from && <span className="text-lg tabular-nums text-slate-500 line-through decoration-rose-400/70">{from}</span>}
+        <span className={`font-semibold tracking-tight text-white tabular-nums ${highlight ? "text-5xl" : "text-3xl"}`}>{value}</span>
+      </div>
+      <div className={`min-h-4 text-xs ${highlight ? "font-medium text-emerald-300" : "text-slate-500"}`}>{hint}</div>
     </div>
   );
 }
+
+/* Linha de base manual: limite inferior do que o time relata (15 min por ticket). Os múltiplos abaixo derivam dela. */
+const MANUAL_SECONDS = 15 * 60;
+const speedup = Math.round(MANUAL_SECONDS / MOCK_KPIS.tempoMedioSegundos);
+const autoTickets = MOCK_KPIS.aprovadosAutomaticos + MOCK_KPIS.recusadosAutomaticos;
+const hoursSaved = Math.round((autoTickets * MANUAL_SECONDS) / 3600);
+const num = (n: number, d = 1) => n.toLocaleString("pt-BR", { maximumFractionDigits: d });
 
 function PanelTitle({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
   return (
@@ -160,10 +170,10 @@ export default function Dashboard() {
         </header>
 
         {/* KPIs: uma faixa única, divisores finos em vez de cinco cards */}
-        <section aria-label="Indicadores executivos" className={`${GLASS} mb-5 grid grid-cols-2 divide-slate-800/80 lg:grid-cols-4 lg:divide-x`}>
-          <Kpi Icon={Zap} label="Autonomia Zero-Touch" value={`${MOCK_KPIS.taxaAutonomiaZeroTouch}%`} hint={`${MOCK_KPIS.ticketsProcessadosTotal} tickets processados`} />
-          <Kpi Icon={Activity} label="Acurácia média" value={`${MOCK_KPIS.acuraciaScoreMedio}%`} hint="score de confiança" />
-          <Kpi Icon={Clock} label="Tempo médio" value={`${MOCK_KPIS.tempoMedioSegundos}s`} hint="vs 15–20 min manual" />
+        <section aria-label="Indicadores executivos" className={`${GLASS} mb-5 grid grid-cols-2 divide-slate-800/80 lg:grid-cols-[1.35fr_1fr_1.15fr_1fr] lg:divide-x`}>
+          <Kpi highlight Icon={Clock} label="Tempo por ticket" from="15 min" value={`${num(MOCK_KPIS.tempoMedioSegundos)}s`} hint={`~${speedup}x mais rápido que o atendimento manual`} />
+          <Kpi Icon={Activity} label="Acurácia média" value={`${num(MOCK_KPIS.acuraciaScoreMedio)}%`} hint="score de confiança da IA" />
+          <Kpi Icon={Zap} label="Autonomia Zero-Touch" value={`${num(MOCK_KPIS.taxaAutonomiaZeroTouch)}%`} hint={`~${num(hoursSaved, 0)} h de analista poupadas em ${num(MOCK_KPIS.ticketsProcessadosTotal, 0)} tickets`} />
           <Kpi Icon={ShieldCheck} label="Fraudes evitadas" value={brl(MOCK_KPIS.fraudesEvitadasValor)} hint={`${MOCK_KPIS.escalonadosExcecao} exceções p/ humano`} />
         </section>
 

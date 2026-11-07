@@ -140,7 +140,7 @@ export const MOCK_BATCH_ALERT: BatchAlert = {
 export const MOCK_KPIS: KPIMetrics = {
   taxaAutonomiaZeroTouch: 94.8,
   acuraciaScoreMedio: 95.6,
-  tempoMedioSegundos: 3.2,
+  tempoMedioSegundos: 8.4, 
   ticketsProcessadosTotal: 1248,
   aprovadosAutomaticos: 1042,
   recusadosAutomaticos: 141,
