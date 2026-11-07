@@ -178,8 +178,8 @@ export default function Dashboard() {
             value={evalResults.n > 0 && evalResults.accuracy !== null ? `${num(evalResults.accuracy)}%` : "a medir"}
             hint={evalResults.n > 0 ? undefined : "rode npm run eval com fotos rotuladas"}
           />
-          <Kpi Icon={Zap} label="Autonomia Zero-Touch" value={`${num(MOCK_KPIS.taxaAutonomiaZeroTouch)}%`} hint={`${num(MOCK_KPIS.ticketsProcessadosTotal, 0)} tickets processados`} />
-          <Kpi Icon={ShieldCheck} label="Fraudes evitadas" value={brl(MOCK_KPIS.fraudesEvitadasValor)} hint={`${MOCK_KPIS.escalonadosExcecao} exceções p/ humano`} />
+          <Kpi Icon={Zap} label="Autonomia Zero-Touch (simulado)" value={`${num(MOCK_KPIS.taxaAutonomiaZeroTouch)}%`} hint={`${num(MOCK_KPIS.ticketsProcessadosTotal, 0)} tickets processados`} />
+          <Kpi Icon={ShieldCheck} label="Fraudes evitadas (simulado)" value={brl(MOCK_KPIS.fraudesEvitadasValor)} hint={`${MOCK_KPIS.escalonadosExcecao} exceções p/ humano`} />
         </section>
 
         {/* Alerta de lote */}
